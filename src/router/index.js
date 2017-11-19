@@ -7,6 +7,7 @@ import ShopcarContainer from '@/components/tabbar/ShopcarContainer'
 import SearchContainer from '@/components/tabbar/SearchContainer'
 import NewsList from '@/components/news/NewsList'
 import NewsInfo from '@/components/news/NewsInfo'
+import PhotoList from '@/components/photos/PhotolistComponent'
 
 Vue.use(Router)
 
@@ -19,7 +20,8 @@ export default new Router({
     { path: '/shopcar', component: ShopcarContainer },
     { path: '/search', component: SearchContainer },
     { path: '/home/newslist', component: NewsList },
-    { path: '/home/newsinfo/:id', component: NewsInfo }
+    { path: '/home/newsinfo/:id', component: NewsInfo },
+    { path: '/home/photolist', component: PhotoList }
   ],
   linkActiveClass: 'mui-active' // 把默认的 router-link-active替换成 mui-active
 })
