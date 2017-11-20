@@ -4,7 +4,9 @@ import router from './router'
 import VueResource from 'vue-resource'
 import moment from 'moment'
 
-import { Header, Swipe, SwipeItem, Button } from 'mint-ui'
+// import { Header, Swipe, SwipeItem, Button, Lazyload } from 'mint-ui'
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 import './lib/mui/css/mui.min.css'
 import './lib/mui/css/icons-extra.css'
 import './lib/mui/fonts/mui-icons-extra.ttf'
@@ -12,14 +14,16 @@ import './lib/mui/fonts/mui-icons-extra.ttf'
 // 配置 .babelrc mint-ui 插件
 // import '../node_modules/mint-ui/lib/header/style.css'
 
+Vue.use(MintUI)
 Vue.use(VueResource)
+// Vue.use(Lazyload)
 Vue.http.options.root = 'http://vue.studyit.io/'
 Vue.http.options.emulateJSON = true
 
-Vue.component(Header.name, Header)
-Vue.component(Swipe.name, Swipe)
-Vue.component(SwipeItem.name, SwipeItem)
-Vue.component(Button.name, Button)
+// Vue.component(Header.name, Header)
+// Vue.component(Swipe.name, Swipe)
+// Vue.component(SwipeItem.name, SwipeItem)
+// Vue.component(Button.name, Button)
 // Vue.config.productionTip = false
 
 /* 定义全局的过滤器  事件格式化 */

@@ -2,18 +2,26 @@
   "presets": [
     [
       "env",
-      {
-        "modules": false
-      }
-    ],
-    "stage-2"
+      "stage-2"
+    ] 
   ],
-  "plugins": ["transform-runtime", ["component", {
+  // "plugins": [
+  //   "transform-runtime",
+  //   "transform-remove-strict-mode",
+  //   [
+  //     "component",
+  //     [{
+  //       "libraryName": "mint-ui",
+  //       "style": true
+  //     }
+  //   ]]
+  // ],
+  "plugins": ["transform-runtime", ["component", [
+    {
       "libraryName": "mint-ui",
       "style": true
-    }],
-    ["transform-remove-strict-mode"]
-  ],
+    }
+  ]], "transform-remove-strict-mode"],
   "env": {
     "test": {
       "presets": [

@@ -106,11 +106,11 @@ export default {
     .mui-media {
       background-color: #fff;
       border: none;
-      img{
+      img {
         width: 60px;
         height: 60px;
       }
-      .mui-media-body{
+      .mui-media-body {
         font-size: 14px;
       }
     }

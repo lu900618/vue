@@ -1,31 +1,25 @@
 <template>
   <div>
     <div id="slider" class="mui-slider">
-				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll">
-						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="tab-top-subpage-1.html">
-							推荐
-						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="tab-top-subpage-2.html">
-							热点
-						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="tab-top-subpage-3.html">
-							北京
-						</a>
-						<a class="mui-control-item" href="#item4mobile" data-wid="tab-top-subpage-4.html">
-							社会
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="tab-top-subpage-5.html">
-							娱乐
-						</a>
-						<a class="mui-control-item" href="#item6mobile" data-wid="tab-top-subpage-6.html">
-							科技
-						</a>
-					</div>
-				</div>
+      <div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+        <div class="mui-scroll">
+          <a class="mui-control-item" :class="{'mui-active':item.id===0}" v-for="item in catList" :key="item.id" @click="getPhotosById(item.id)">
+            {{ item.title }}
+          </a>
+        </div>
+      </div>
+    </div>
 
-			</div>
-
+    <!-- 图片列表区域 -->
+    <ul class="photo-list">
+      <li v-for="item in imgList" :key="item.id">
+        <img v-lazy="item.img_url">
+        <div class="info">
+          <h1 class="info-title">{{item.title}}</h1>
+          <div class="info-body">{{item.zhaiyao}}</div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -38,14 +32,83 @@ mui('.mui-scroll-wrapper').scroll({
 
 export default {
   data () {
-    return {}
+    return {
+      catList: [],
+      imgList: []
+    }
+  },
+  created () {
+    this.getAllCats()
+    this.getPhotosById(0)
   },
   methods: {
-
+    getAllCats () {
+      this.$http.get('api/getimgcategory').then(result => {
+        if (result.body.status === 0) {
+          result.body.message.unshift({
+            title: '全部',
+            id: 0
+          })
+          this.catList = result.body.message
+        }
+      })
+    },
+    /**
+    根据分类 ID 获取图片
+    */
+    getPhotosById (cateId) {
+      this.$http.get('api/getimages/' + cateId).then(result => {
+        if (result.body.status === 0) {
+          this.imgList = result.body.message
+        }
+      })
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
-
+* {
+  touch-action: pan-y;
+}
+.photo-list {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  padding-bottom: 0;
+  li {
+    background-color: #ccc;
+    text-align: center;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #999;
+    position: relative;
+    overflow: hidden;
+    img {
+      width: 100%;
+      margin: 0 auto;
+      display: block;
+    }
+    img[lazy='loading'] {
+      width: 40px;
+      height: 300px;
+      margin: 0 auto;
+    }
+    .info {
+      color: #fff;
+      text-align: left;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      max-height: 88px;
+      .info-title {
+        font-size: 14px;
+        padding-top: 5px;
+      }
+      .info-body {
+        font-size: 13px;
+      }
+    }
+  }
+}
 </style>
