@@ -3,7 +3,7 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 import moment from 'moment'
-// import Preview from 'vue-preview'
+import Preview from 'vue-preview'
 
 // import { Header, Swipe, SwipeItem, Button, Lazyload } from 'mint-ui'
 import MintUI from 'mint-ui'
@@ -17,7 +17,7 @@ import './lib/mui/fonts/mui-icons-extra.ttf'
 
 Vue.use(MintUI)
 Vue.use(VueResource)
-// Vue.use(Preview)
+Vue.use(Preview)
 // Vue.use(Lazyload)
 Vue.http.options.root = 'http://vue.studyit.io/'
 Vue.http.options.emulateJSON = true

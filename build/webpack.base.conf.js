@@ -77,7 +77,10 @@ module.exports = {
         // use: ['style-loader', 'css-loader', 'less-loader']
         loader: 'style-loader, css-loader, less-loader'
       }, // 处理 less 文件的 loader
-
+      {
+        test: /vue-preview.src.*?js$/,
+        loader: 'babel'
+      }
     ]
   }
 }

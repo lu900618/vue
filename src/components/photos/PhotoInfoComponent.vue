@@ -13,7 +13,7 @@
 
     <div class="content" v-html="photo.content"></div>
 
-    <cmt-box id="id"></cmt-box>
+    <cmt-box :id="id"></cmt-box>
   </div>
 </template>
 
@@ -58,7 +58,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .photoinfo-container {
   padding: 3px;
   h3 {
