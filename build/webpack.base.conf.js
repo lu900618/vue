@@ -79,7 +79,7 @@ module.exports = {
       }, // 处理 less 文件的 loader
       {
         test: /vue-preview.src.*?js$/,
-        loader: 'babel'
+        loader: 'babel-loader'
       }
     ]
   }

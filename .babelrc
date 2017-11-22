@@ -29,6 +29,6 @@
     }
   },
   "ignore": [
-    "/src/lib/**/*.js"
-  ],
+    "/src/lib/mui/js/mui.min.js"
+  ]
 }
