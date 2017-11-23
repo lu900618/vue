@@ -1,12 +1,12 @@
 <template>
   <div>
     <!-- 轮播图 -->
-    <mt-swipe :auto="4000">
+    <!-- <mt-swipe :auto="4000">
       <mt-swipe-item v-for="item in swiperList" :key="item.url">
         <img :src="item.img" alt="">
       </mt-swipe-item>
-    </mt-swipe>
-
+    </mt-swipe> -->
+    <swiper-box :swiperList="swiperList" :isFull="true"></swiper-box>
     <!-- 九宫格 -->
     <div class="mui-content">
       <ul class="mui-table-view mui-grid-view mui-grid-9">
@@ -23,7 +23,7 @@
           </router-link>
         </li>
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-          <router-link to="#">
+          <router-link to="/home/goodslist">
             <img src="../../images/menu3.png" alt="">
             <div class="mui-media-body">商品购买</div>
           </router-link>
@@ -55,6 +55,7 @@
 
 <script>
 import { Toast } from 'mint-ui'
+import SwiperComponent from '@/components/commonComponents/SwiperComponent'
 
 export default {
   data () {
@@ -76,29 +77,32 @@ export default {
         }
       })
     }
+  },
+  components: {
+    'swiper-box': SwiperComponent
   }
 }
 </script>
 
 <style lang="less" scoped>
-.mint-swipe {
-  img {
-    width: 100%;
-    height: 100%;
-  }
-  height: 200px;
-  // .mint-swipe-item {
-  //   &:nth-child(1) {
-  //     background-color: red;
-  //   }
-  //   &:nth-child(2) {
-  //     background-color: greenyellow;
-  //   }
-  //   &:nth-child(3) {
-  //     background-color: blueviolet;
-  //   }
-  // }
-}
+// .mint-swipe {
+//   img {
+//     width: 100%;
+//     height: 100%;
+//   }
+//   height: 200px;
+//   // .mint-swipe-item {
+//   //   &:nth-child(1) {
+//   //     background-color: red;
+//   //   }
+//   //   &:nth-child(2) {
+//   //     background-color: greenyellow;
+//   //   }
+//   //   &:nth-child(3) {
+//   //     background-color: blueviolet;
+//   //   }
+//   // }
+// }
 .mui-content {
   .mui-grid-view.mui-grid-9 {
     background-color: #fff;
