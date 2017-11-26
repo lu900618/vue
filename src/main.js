@@ -4,6 +4,7 @@ import router from './router'
 import VueResource from 'vue-resource'
 import moment from 'moment'
 import Preview from 'vue-preview'
+import Vuex from 'vuex'
 
 // import { Header, Swipe, SwipeItem, Button, Lazyload } from 'mint-ui'
 import MintUI from 'mint-ui'
@@ -18,6 +19,43 @@ import './lib/mui/fonts/mui-icons-extra.ttf'
 Vue.use(MintUI)
 Vue.use(VueResource)
 Vue.use(Preview)
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  state: {
+    /** { id:id, count:123, price:123, selected:true//默认是否选中} */
+    car: JSON.parse(localStorage.getItem('car')) || [] // 存取购物车中的数据
+  },
+  mutations: {
+    addToCart(state, goodsinfo) {
+      let flag = false // 默认购物车中没有相同的商品
+      // 1.购物车中已经有， 更新数量
+      state.car.some(item => {
+        if (item.id == goodsinfo.id) {
+          item.count += parseInt(goodsinfo.count)
+          flag = true
+          return true
+        }
+      })
+      // 2.没有，添加
+      if (!flag) {
+        state.car.push(goodsinfo)
+      }
+
+      localStorage.setItem('car', JSON.stringify(state.car))
+    }
+  },
+  getters: {
+    getAllCount(state) {
+      let c = 0
+      state.car.forEach(item => {
+        c += item.count
+      })
+      return c
+    }
+  }
+})
+
 // Vue.use(Lazyload)
 Vue.http.options.root = 'http://vue.studyit.io/'
 Vue.http.options.emulateJSON = true
@@ -37,5 +75,6 @@ Vue.filter('dateFormat', (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') => {
 new Vue({
   el: '#app',
   router,
-  render: h => h(App)
+  render: h => h(App),
+  store
 })

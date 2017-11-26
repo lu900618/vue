@@ -17,7 +17,7 @@
             <span class="now-price">￥{{goods.sell_price}}</span>
           </p>
           <p>购买数量：
-            <num-box @getcount="getSelectedCount" :max="goods.stock_quantity"/>
+            <num-box @getcount="getSelectedCount" :max="goods.stock_quantity" />
           </p>
           <p>
             <mt-button type="primary" size="small">立即购买</mt-button>
@@ -95,6 +95,16 @@ export default {
     },
     add2cart () {
       this.ballFlag = !this.ballFlag
+      // 要存到vuex中的对象格式
+      let goodsinfo = {
+        id: this.id,
+        count: this.selectedCount,
+        price: this.goods.sell_price,
+        selected: true
+      }
+
+      // 调用 store 中的mutations 将商品加入购物车
+      this.$store.commit('addToCart', goodsinfo)
     },
     beforeEnter (el) {
       el.style.transform = 'translate(0, 0)'
