@@ -3,7 +3,7 @@
     <swiper-box :swiperList="swiperList" :isFull="false" class="mui-card" />
 
     <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:after-enter="afterEnter">
-      <div class="ball" v-show="ballFlag"></div>
+      <div class="ball" v-show="ballFlag" ref="ball"></div>
     </transition>
 
     <!-- 商品购买区域 -->
@@ -17,11 +17,14 @@
             <span class="now-price">￥{{goods.sell_price}}</span>
           </p>
           <p>购买数量：
-            <num-box/>
+            <num-box @getcount="getSelectedCount" :max="goods.stock_quantity"/>
           </p>
           <p>
             <mt-button type="primary" size="small">立即购买</mt-button>
             <mt-button type="danger" size="small" @click="add2cart">加入购物车</mt-button>
+            <!-- 需要父子传值
+            父组件定义事件， 从子组件获取值
+             -->
           </p>
         </div>
       </div>
@@ -55,7 +58,8 @@ export default {
       id: this.$route.params.id,
       swiperList: [],
       goods: {},
-      ballFlag: false
+      ballFlag: false,
+      selectedCount: 1  // 用户选中的商品数量 进页面最少买一件 默认1
     }
   },
   created () {
@@ -92,17 +96,29 @@ export default {
     add2cart () {
       this.ballFlag = !this.ballFlag
     },
-     beforeEnter: function (el) {
+    beforeEnter (el) {
       el.style.transform = 'translate(0, 0)'
     },
-    enter: function (el, done) {
-      el.offsetWidth;
-      el.style.transform = 'translate(88px, 260px)'
-      el.style.transition = 'all 2s cubic-bezier(.48,-0.53,.72,.35)'
+    enter (el, done) {
+      // 获取小球在页面中的位置
+      const ballPosition = this.$refs.ball.getBoundingClientRect()
+      const badgePosition = document.getElementById('badge').getBoundingClientRect()
+
+      const xDist = badgePosition.left - ballPosition.left
+      const yDist = badgePosition.top - ballPosition.top
+
+      el.style.transform = `translate(${xDist}px, ${yDist}px)`
+      el.style.transition = 'all 1s cubic-bezier(.48,-0.53,.72,.35)'
       done()
     },
-    afterEnter: function (el) {
+    afterEnter (el) {
       this.ballFlag = !this.ballFlag
+    },
+    // 方法由子组件调用 需要子组件传递 count 值
+    getSelectedCount (count) {
+      count = count < 1 ? 1 : count
+      this.selectedCount = count
+      console.log(this.selectedCount)
     }
   },
   components: {
