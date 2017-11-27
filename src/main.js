@@ -27,7 +27,7 @@ const store = new Vuex.Store({
     car: JSON.parse(localStorage.getItem('car')) || [] // 存取购物车中的数据
   },
   mutations: {
-    addToCart(state, goodsinfo) {
+    addToCart (state, goodsinfo) {
       let flag = false // 默认购物车中没有相同的商品
       // 1.购物车中已经有， 更新数量
       state.car.some(item => {
@@ -43,15 +43,78 @@ const store = new Vuex.Store({
       }
 
       localStorage.setItem('car', JSON.stringify(state.car))
+    },
+    updateGoodsInfo (state, goodsinfo) {
+      state.car.some(item => {
+        if (item.id == goodsinfo.id) {
+          item.count = parseInt(goodsinfo.count)
+          return true
+        }
+      })
+      localStorage.setItem('car', JSON.stringify(state.car))
+    },
+    removeFromCar (state, id) {
+      state.car.some((item, i) => {
+        if (item.id == id) {
+          state.car.splice(i, 1)
+          return true
+        }
+      })
+      localStorage.setItem('car', JSON.stringify(state.car))
+    },
+    /**
+     * 更新购物车选中的信息
+     * @param {*} state 
+     * @param {Object} info 
+     */
+    updateGoodsSelected (state, info) {
+      state.car.some(item => {
+        if (item.id == info.id) {
+          item.selected = info.selected
+        }
+      })
+      localStorage.setItem('car', JSON.stringify(state.car))
     }
   },
   getters: {
-    getAllCount(state) {
+    getAllCount (state) {
       let c = 0
       state.car.forEach(item => {
         c += item.count
       })
       return c
+    },
+    getGoodsCount (state) {
+      let o = {}
+      state.car.forEach(item => {
+        o[item.id] = item.count
+      })
+      return o
+    },
+    /**
+     * 获取购物车左侧按钮对应的状态对象 {id:true}
+     */
+    getGoodsSelected (state) {
+      let obj = {}
+      state.car.forEach(item => {
+        obj[item.id] = item.selected
+      })
+      return obj
+    },
+    /**
+     * 获取商品总的数量和价格
+     * @param {*} state 
+     */
+    getGoodsCountAndAmount (state) {
+      let obj = {
+        count: 0, // 勾选的数量
+        amount: 0 // 勾选的总价
+      }
+      state.car.forEach(item => {
+        obj.count += item.count
+        obj.amount += item.price * item.count
+      })
+      return obj
     }
   }
 })

@@ -1,7 +1,11 @@
 <template>
   <div class="app-container">
     <!-- 顶部 header -->
-    <mt-header fixed title="vue测试"></mt-header>
+    <mt-header fixed title="vue测试">
+      <span slot="left" @click="goBack" v-show="flag">
+        <mt-button icon="back">返回</mt-button>
+      </span>
+    </mt-header>
 
     <!-- 中间内容部分 -->
     <transition>
@@ -33,6 +37,27 @@
 </template>
 
 <script>
+export default {
+  data () {
+    return {
+      flag: false
+    }
+  },
+  created () {
+    console.log(this.$route.path === '/home')
+    this.flag = !(this.$route.path === '/home')
+  },
+  methods: {
+    goBack () {
+      this.$router.go(-1)
+    }
+  },
+  watch: {
+    '$route.path': function (newVal) {
+      this.flag = !(newVal === '/home')
+    }
+  }
+}
 </script>
 
 <style lang="less">
